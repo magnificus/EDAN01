@@ -1,0 +1,5 @@
+output ["reward = ",show(reward)];
+int: num = 4;
+array [1..4] of int: fun = [4,-1,-2,3];
+array [1..num] of int: visits;
+int: reward = sum([visits[i]*fun[i] | i in 1..num, ]);

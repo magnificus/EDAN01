@@ -1,0 +1,2 @@
+var 1..5: Beef:: output_var;
+solve  satisfy;
