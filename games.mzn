@@ -13,16 +13,19 @@ constraint pocket[1] = cap;
 
 constraint
     forall (i in 2..num) (
-		(pocket[i] = pocket[i-1] - visits[i-1] + refill)
+		minimum(pocket[i], [pocket[i-1] - visits[i-1] + refill, cap])
     );
 	
 constraint
     forall (i in 1..num) (
-		(visits[i] <= pocket[i]) /\ (visits[i] > 0)
+		(visits[i] <= pocket[i])  %/\ (visits[i] > 0)
     );
+
+constraint at_most(1, visits, 0);
+
 
 var int: reward = sum(i in 1..num) (visits[i]*fun[i]);
 
 solve maximize reward;
 
-output ["reward = ", show(reward)];
+output ["reward = ", show(reward), show(visits)];
