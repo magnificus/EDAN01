@@ -47,7 +47,7 @@ import org.jacop.core.Store;
  * @version 4.1
  */
 
-public class Split1  {
+public class Experiment  {
   int nodes = 0;
   int wrong = 0;
 
@@ -78,7 +78,7 @@ public class Split1  {
    */
   public IntVar costVariable = null;
 
-  public Split1(Store s) {
+  public Experiment(Store s) {
     store = s;
   }
 
@@ -208,9 +208,7 @@ public class Split1  {
     int value;
 
     public ChoicePoint (IntVar[] v) {
-
-      var = inputOrder(v);
-
+      var = selectVariable(v);
       value = selectValue(var);
     }
 
@@ -218,15 +216,15 @@ public class Split1  {
       return searchVariables;
     }
 
-    IntVar inputOrder(IntVar[] v) {
-      return selectVariable(v, 0);
+    IntVar selectVariable(IntVar[] v) {
+      return smallest(v);
     }
+
     /**
      * example variable selection; input order
      */
     IntVar selectVariable(IntVar[] v, int index) {
       if (v.length != 0) {
-
         if (v[index].domain.getSize() == 1) {
           searchVariables = new IntVar[v.length - 1];
           int arrayIndex = 0;
@@ -251,17 +249,82 @@ public class Split1  {
       }
     }
 
+
+   IntVar maxConstraint(IntVar[] v){
+      IntVar bestVar = v[0];
+      int bestIndex = 0;
+
+      for (int i = 1; i < v.length; i++){
+          if (store.watchedConstraints == null)
+            continue;
+          if (store.watchedConstraints.get(v[i]).size() > store.watchedConstraints.get(bestVar).size()){
+            System.out.println("asdasd");
+            bestVar = v[i];
+            bestIndex = i;
+          } 
+        }
+
+      return selectVariable(v, bestIndex);
+    }
+
+
+    IntVar maxRegret(IntVar[] v){
+      IntVar bestVar = v[0];
+      int bestIndex = 0;
+
+      for (int i = 1; i < v.length; i++){
+          if (v[i].domain.getSize() > 1 && v[0].domain.getSize() > 1 && (v[i].domain.getElementAt(1) - v[i].domain.getElementAt(0)) > bestVar.domain.getElementAt(1) - (bestVar.domain.getElementAt(0))){
+            bestVar = v[i];
+            bestIndex = i;
+          } 
+        }
+
+      return selectVariable(v, bestIndex);
+    }
+
+    IntVar firstFail(IntVar[] v) {
+
+      IntVar bestVar = v[0];
+      int bestIndex = 0;
+
+      for (int i = 1; i < v.length; i++){
+          if (v[i].domain.getSize() < bestVar.domain.getSize()){
+            bestVar = v[i];
+            bestIndex = i;
+          } 
+        }
+
+      return selectVariable(v, bestIndex);
+    }
+
+    IntVar smallest(IntVar[] v) {
+      IntVar bestVar = v[0];
+      int bestIndex = 0;
+      for (int i = 1; i < v.length; i++){
+          if (v[i].min() < bestVar.min()){
+            bestVar = v[i];
+            bestIndex = i;
+          } 
+        }
+
+      return selectVariable(v, bestIndex);
+    }
+
+
     /**
      * example value selection; indomain_min
      */
     int selectValue(IntVar v) {
-      //return v.min();
+      //return min(v);
       return selectMid(v);
     }
 
-    int selectMid(IntVar v) {
+    int min(IntVar v) {
+      return v.min();
+    }
+
+    int selectMid(IntVar v){
       return (v.min() + v.max()) / 2;
-      //return v.domain.getElementAt(v.domain.getSize() / 2);
     }
 
     /**
@@ -272,7 +335,7 @@ public class Split1  {
       return getLessEqConstraint();
     }
 
-    public PrimitiveConstraint getLessEqConstraint() {
+     public PrimitiveConstraint getLessEqConstraint() {
       return new XlteqC(var, value);
     }
     public PrimitiveConstraint getGreaterConstraint() {

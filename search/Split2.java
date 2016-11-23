@@ -33,7 +33,9 @@ import org.jacop.constraints.Not;
 import org.jacop.constraints.PrimitiveConstraint;
 import org.jacop.constraints.XeqC;
 import org.jacop.constraints.XlteqC;
+import org.jacop.constraints.XgteqC;
 import org.jacop.constraints.XgtC;
+
 
 import org.jacop.core.FailException;
 import org.jacop.core.IntDomain;
@@ -47,7 +49,7 @@ import org.jacop.core.Store;
  * @version 4.1
  */
 
-public class Split1  {
+public class Split2  {
   int nodes = 0;
   int wrong = 0;
 
@@ -78,7 +80,7 @@ public class Split1  {
    */
   public IntVar costVariable = null;
 
-  public Split1(Store s) {
+  public Split2(Store s) {
     store = s;
   }
 
@@ -260,7 +262,8 @@ public class Split1  {
     }
 
     int selectMid(IntVar v) {
-      return (v.min() + v.max()) / 2;
+      int extra = (v.min() + v.max()) % 2;
+      return (v.min() + v.max()) / 2 + extra;
       //return v.domain.getElementAt(v.domain.getSize() / 2);
     }
 
@@ -269,14 +272,14 @@ public class Split1  {
      */
     public PrimitiveConstraint getConstraint() {
       //return new XeqC(var, value);
-      return getLessEqConstraint();
+      return getGreaterConstraint();
     }
 
     public PrimitiveConstraint getLessEqConstraint() {
       return new XlteqC(var, value);
     }
     public PrimitiveConstraint getGreaterConstraint() {
-      return new XgtC(var, value);
+      return new XgteqC(var, value);
     }
   }
 }
