@@ -9,8 +9,7 @@ array[1..num_types] of int: resources;
 
 array[1..num_nodes] of int: durations = [cycles[types[i]] | i in 1..num_nodes];
 
-array[1..num_nodes] of 0..1: needs_1 = [0,0,0,0,1,1,1,1];
-%array[1..num_nodes] of 0..1: needs_1 = [bool2int(types[i] == 2) | i in 1..num_nodes];
+array[1..num_nodes] of 0..1: needs_1 = [bool2int(types[i] == 2) | i in 1..num_nodes];
 array[1..num_nodes] of 0..1: needs_2 = [bool2int(types[i] == 3) | i in 1..num_nodes];
 
 
