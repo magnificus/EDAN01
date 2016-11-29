@@ -26,4 +26,7 @@ constraint forall(i in 2..num_nodes) (
 
 output ["result = " ++ show(result),"\t", "nodes = " ++ show([nodes[i] | i in 2..num_nodes])];
 
-solve minimize(result);
+%solve minimize(result);
+
+%solve satisfy;
+solve :: int_search(nodes, smallest, indomain_min, complete) minimize result;
