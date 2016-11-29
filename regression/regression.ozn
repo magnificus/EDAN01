@@ -1,0 +1,4 @@
+output ["result = "++show(result),"\t","nodes = "++show(nodes)];
+int: num_nodes = 8;
+array [1..num_nodes] of int: nodes;
+int: result;
