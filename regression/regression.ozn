@@ -1,4 +1,4 @@
-output ["result = "++show(result),"\t","nodes = "++show(nodes)];
+output ["result = "++show(result),"\t","nodes = "++show([nodes[i] | i in 2..num_nodes, ])];
 int: num_nodes = 8;
 array [1..num_nodes] of int: nodes;
 int: result;
