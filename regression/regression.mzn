@@ -23,10 +23,15 @@ var int: result;
 constraint forall(i in 2..num_nodes) (
 	result >= nodes[i] + cycles[types[i]]
 );
+%array[2..num_nodes] of int: adders = [i | i in 2..num_nodes, where types[i] == 1];
+%array[2..num_nodes] of int: mults = [i | i in 2..num_nodes, where types[i] == 2];
 
-output ["result = " ++ show(result),"\t", "nodes = " ++ show([nodes[i] | i in 2..num_nodes])];
+output ["result = " ++ show(result)
+	++ "\nnodes = " ++ show([nodes[i] | i in 2..num_nodes])
+	++ "\nadders: " ++ show([i | i in 2..num_nodes, where types[i] == 2])
+	++ "\nmults: " ++ show([i | i in 2..num_nodes, where types[i] == 3])];
 
 %solve minimize(result);
 
 %solve satisfy;
-solve :: int_search(nodes, smallest, indomain_min, complete) minimize result;
+solve :: int_search(nodes, smallest, indomain_min, complete) satisfy ;
