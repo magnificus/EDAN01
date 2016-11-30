@@ -16,7 +16,7 @@ array[1..num_nodes] of var 0..5000: nodes;
 
 constraint cumulative(adders, [1 | i in 1..num_adders], [1 | i in 1..num_adders], resources[2]);
 
-constraint cumulative(mults, [2 | i in 1..num_mults], [1 | i in 1..num_mults],resources[3]);
+constraint cumulative(mults, [2 | i in 1..num_mults], [1 | i in 1..num_mults], resources[3]);
 
 constraint forall (i in 2..num_nodes) (
 	nodes[i] >= nodes[dependencies[i,1]] + cycles[types[dependencies[i,1]]] /\
@@ -32,8 +32,8 @@ array[1..num_mults] of var 1..resources[3]: mult_constraints;
 array[1..num_adders] of var 0..500: adders = [nodes[i] | i in 2..num_nodes, where types[i] == 2];
 array[1..num_mults] of var 0..500: mults = [nodes[i]| i in 2..num_nodes, where types[i] == 3];
 
-%constraint diffn(adders, adder_constraints, [cycles[2] | i in 1..num_adders],[1 | i in 1..num_adders] );
-%constraint diffn(mults, mult_constraints, [cycles[3] | i in 1..num_mults], [1 | i in 1..num_mults]);
+constraint diffn(adders, adder_constraints, [cycles[2] | i in 1..num_adders],[1 | i in 1..num_adders] );
+constraint diffn(mults, mult_constraints, [cycles[3] | i in 1..num_mults], [1 | i in 1..num_mults]);
 
 constraint forall(i in 2..num_nodes) (
 	result >= nodes[i] + cycles[types[i]]
