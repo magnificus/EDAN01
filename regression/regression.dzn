@@ -1,5 +1,7 @@
 num_nodes = 29;
 num_types = 3;
+num_adders = 12; 
+num_mults = 16;
 dependencies = [|1,1|
 1,1|1,1|1,1|1,1|1,1|1,1|1,1|1,1| % up to index 7
 2,3|4,5|6,7|8,9|11,1|12,1|14,1|15,1| % up to index 15
@@ -17,4 +19,4 @@ cycles = [0,
 1,2];
 
 resources = [1,
-2,2];
+2,4];
