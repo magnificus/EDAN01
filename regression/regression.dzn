@@ -16,7 +16,7 @@ types = [1, 3, 3, 3, 3, 3, 3, 3, 3, %up to index 7
 
 
 cycles = [0,
-1,2];
+1,1];
 
 resources = [1,
 2,4];

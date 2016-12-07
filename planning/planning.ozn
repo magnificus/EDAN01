@@ -1,0 +1,5 @@
+output ["final result: ",show(total_result)," positions: ",show(positions),"results: ",show(results)];
+int: n = 5;
+array [1..n,1..n] of int: positions;
+array [1..2*n] of int: results;
+int: total_result = sum(results);
